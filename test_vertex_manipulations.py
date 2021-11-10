@@ -23,32 +23,32 @@ def test_random_node():
     assert random_node([1,2,3,4], not_in=[1,2]) in [3,4]
     assert random_node([1,2,3,4], not_in=[1,2]) in [3,4]
 
-def test_kernalize_vertices_isolation():
-    assert kernalize_vertices(
-        [1,2,3,4,5,6,7,8],
-        [(1,2), (2,3), (3,4), (2,5), (4,7)],
-        remove_isolated=True) == [1,2,3,4,5,7]
-    assert kernalize_vertices(
-        [1,2,3,4,5,6,7,8],
-        [(1,2), (2,3), (3,4), (2,5), (5,6), (6,7), (4,7)],
-        remove_isolated=True) == [1,2,3,4,5,6,7]
+def test_kernalize_vertices():
+    # (kernalized_vertices, kernalized_edges, sure_in_cover) = kernalize_vertices(
+    #     [1,2,3,4,5],
+    #     [(1,2), (1,3), (1,4), (1,5), (2,3), (2,5), (3,5), (3,4), (4,5)], k=3)
 
-def test_kernalize_vertices_pendant():
-    assert kernalize_vertices(
-        [1,2,3,4,5,6,7,8],
-        [(1,2), (2,3), (3,4), (2,5), (5,6), (6,7), (4,7)],
-        remove_pendant=True) == [2,3,4,5,6,7,8]
-    assert kernalize_vertices(
-        [1,2,3,4,5,6,7,8],
-        [(1,2), (2,3), (3,4), (2,5), (5,6), (5,7)],
-        remove_pendant=True) == [2,3,5,8]
+    # assert sure_in_cover == [1,3,5]
+    # assert kernalized_vertices == [2,4]
+    # assert kernalized_edges == []
 
-def test_kernalize_vertices_pendant_and_isolated():
-    assert kernalize_vertices(
-        [1,2,3,4,5,6,7,8],
-        [(1,2), (2,3), (3,4), (2,5), (5,6), (6,7), (4,7)],
-        remove_pendant=True, remove_isolated=True) == [2,3,4,5,6,7]
-    assert kernalize_vertices(
-        [1,2,3,4,5,6,7,8],
-        [(1,2), (2,3), (3,4), (2,5), (5,6), (5,7)],
-        remove_pendant=True, remove_isolated=True) == [2,3,5]
+    # (kernalized_vertices, kernalized_edges, sure_in_cover) = kernalize_vertices(
+    #     [1,2,3,4,5],
+    #     [(1,2), (1,3), (1,4), (1,5), (2,3), (2,4), (2,5), (3,5), (3,4), (4,5)], k=3)
+
+    # assert sure_in_cover == None
+    # assert kernalized_vertices == None
+    # assert kernalized_edges == None
+
+    (kernalized_vertices, kernalized_edges, sure_in_cover) = kernalize_vertices(
+    # log = kernalize_vertices(
+        [0,1,2,3,4,5,6],
+        [(0,2),(0,3),(0,6),(0,1),(1,2),(1,3),(1,6),(1,4),(1,5),(2,3),(2,6),(3,6),
+            (4,6),(5,6)], k=4, rlog=False)
+
+    # assert log == ""
+
+    assert sure_in_cover == [1,6]
+    assert kernalized_vertices == [0,2,3]
+    assert kernalized_edges == None
+    

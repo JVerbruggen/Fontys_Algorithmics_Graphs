@@ -39,34 +39,46 @@ def find_tops_nodes(nodes: list[int], edges: list[(int, int)], k: int) -> list[i
     for node in nodes:
         if degree(node, edges) > k:
             tops += [node]
+            k -= 1
     return tops
 
 def random_node(nodes: list[int], not_in: list[int] = []) -> int:
     working = [n for n in nodes if n not in not_in]
     return working[randrange(len(working))]
 
-def kernalize_vertices(nodes: list[int], edges: list[(int, int)], remove_isolated = False, remove_pendant = False, remove_tops_k = -1) -> list[int]:
-    result_nodes = []
+def remove_edges_for(node: int, edges: list[(int, int)]) -> list[(int, int)]:
+    return [(ea, eb) for (ea, eb) in edges if ea != node and eb != node]
 
-    node_degrees = dict([(node, 0) for node in nodes])
-    for (ea, eb) in edges:
-        node_degrees[ea] += 1
-        node_degrees[eb] += 1
-    
+def kernalize_vertices(nodes: list[int], edges: list[(int, int)], k, rlog=False) -> (list[int], list[(int, int)]):
+    result_nodes = nodes[:]
+    result_edges = edges[:]
+    nodes_surely_in_cover = []
+
     i = 0
-    len_nodes= len(nodes)
-    for node, degree in node_degrees.items():
-        if degree == 0 and remove_isolated:
-            pass
-        elif degree == 1 and remove_pendant:
-            pass
-        elif remove_tops_k > 0 and degree > remove_tops_k:
-            remove_tops_k -= 1
-            pass
-        elif remove_tops_k >= 0 and remove_tops_k ** 2 < len_nodes-i:
-            result_nodes += ['not possible']
-            break
-        else:
-            result_nodes += [node]
+    len_nodes = len(nodes)
+    looping = True
+    log = ""
 
-    return result_nodes
+    while looping:
+        log += str(result_nodes) + f"; k={k}\n"
+        looping = False
+        for node in result_nodes:
+            deg = degree(node, result_edges)
+            if k > 0 and deg > k:
+                k -= 1
+                nodes_surely_in_cover += [node]
+                result_nodes.remove(node)
+                result_edges = remove_edges_for(node, result_edges)
+                looping = True
+            elif deg == 0:
+                result_nodes.remove(node)
+                looping = True
+        if looping == False and len(result_edges) > k ** 2:
+            result_nodes = result_edges = nodes_surely_in_cover = None
+            break
+    if rlog: return log
+
+    if result_nodes is None:
+        return (None, None, None)
+
+    return (result_nodes, result_edges, sorted(nodes_surely_in_cover))

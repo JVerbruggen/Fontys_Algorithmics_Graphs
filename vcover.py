@@ -11,12 +11,13 @@ def validate_vcover(nodes: list[int], edges: list[(int, int)], cover: list[bool]
 
     return len(edges) == 0
 
-def find_vcovers(nodes: list[int], edges: list[(int, int)], cover: list[bool], n: int, i: int, k: int, lambd_a): 
-    lambd_a(1) # Progress bar increment
+def find_vcovers(nodes: list[int], nodes_to_cover: list[int], edges: list[(int, int)], cover: list[bool], n: int, i: int, k: int, progressbar_increment): 
+
+    progressbar_increment(1) # Progress bar increment
     if n == i:
         valid = validate_vcover(nodes[:], edges[:], cover, n, k)
         if valid:
-            return [[nodes[i] for i in range(len(nodes)) if cover[i]]]
+            return [[nodes_to_cover[i] for i in range(len(nodes_to_cover)) if cover[i]]]
         return None
     else:
         vertices_used = sum(cover)
@@ -26,14 +27,14 @@ def find_vcovers(nodes: list[int], edges: list[(int, int)], cover: list[bool], n
         possible_covers = []
 
         cover[i] = False
-        cover_false = find_vcovers(nodes, edges, cover[:], n, i+1, k, lambd_a)
+        cover_false = find_vcovers(nodes, nodes_to_cover, edges, cover[:], n, i+1, k, progressbar_increment)
         if cover_false != None:
             possible_covers += cover_false
 
         cover[i] = True
-        cover_true = find_vcovers(nodes, edges, cover[:], n, i+1, k, lambd_a)
+        cover_true = find_vcovers(nodes, nodes_to_cover, edges, cover[:], n, i+1, k, progressbar_increment)
         if cover_true != None:
             possible_covers += cover_true
 
-        return possible_covers
+        return sorted(possible_covers)
 
