@@ -41,7 +41,7 @@ def test_kernalize_vertices():
     assert kernalized_vertices == None
     assert kernalized_edges == None
     assert k == None
-
+    
     (kernalized_vertices, kernalized_edges, sure_in_cover, k) = kernalize_vertices(
         [0,1,2,3,4,5,6],[(0,2),(0,3),(0,6),(0,1),(1,2),(1,3),(1,6),(1,4),(1,5),(2,3),(2,6),(3,6),(4,6),(5,6)], k=4)
 
