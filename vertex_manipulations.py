@@ -49,7 +49,7 @@ def random_node(nodes: list[int], not_in: list[int] = []) -> int:
 def remove_edges_for(node: int, edges: list[(int, int)]) -> list[(int, int)]:
     return [(ea, eb) for (ea, eb) in edges if ea != node and eb != node]
 
-def kernalize_vertices(nodes: list[int], edges: list[(int, int)], k, rlog=False) -> (list[int], list[(int, int)]):
+def kernalize_vertices(nodes: list[int], edges: list[(int, int)], k) -> (list[int], list[(int, int)], list[int], int):
     result_nodes = nodes[:]
     result_edges = edges[:]
     nodes_surely_in_cover = []
@@ -57,10 +57,8 @@ def kernalize_vertices(nodes: list[int], edges: list[(int, int)], k, rlog=False)
     i = 0
     len_nodes = len(nodes)
     looping = True
-    log = ""
 
     while looping:
-        log += str(result_nodes) + f"; k={k}\n"
         looping = False
         for node in result_nodes:
             deg = degree(node, result_edges)
@@ -76,9 +74,8 @@ def kernalize_vertices(nodes: list[int], edges: list[(int, int)], k, rlog=False)
         if looping == False and len(result_edges) > k ** 2:
             result_nodes = result_edges = nodes_surely_in_cover = None
             break
-    if rlog: return log
 
     if result_nodes is None:
-        return (None, None, None)
+        return (None, None, None, None)
 
-    return (result_nodes, result_edges, sorted(nodes_surely_in_cover))
+    return (result_nodes, result_edges, sorted(nodes_surely_in_cover), k)
