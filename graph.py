@@ -1,7 +1,6 @@
 import networkx as nx
 import random
 from vertex_manipulations import *
-from graph_factory import *
 
 class LabGraph(nx.Graph):
     def print_matrix(self):
