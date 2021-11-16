@@ -44,14 +44,14 @@ def find_vcovers(nodes: list[int], nodes_to_cover: list[int], edges: list[(int, 
         valid = validate_vcover(nodes[:], edges[:], cover, n, k)
         if valid:
             vc = [[nodes[j] for j in range(len(nodes)) if cover[j]]]
-            pbar_incr(1,k+1)
+            pbar_incr(1)
             return vc
-        pbar_incr(1,k+1)
+        pbar_incr(1)
         return None
     else:
         vertices_used = sum(cover)
         if vertices_used > k:
-            pbar_incr(1,k+1)
+            pbar_incr(1)
             return None
 
         possible_covers = []
@@ -67,7 +67,6 @@ def find_vcovers(nodes: list[int], nodes_to_cover: list[int], edges: list[(int, 
             possible_covers += cover_true
 
         sorted_possible_covers = sorted(possible_covers)
-        pbar_incr(1,k+1)
-        pbar_desc("Cleaning stack")
+        pbar_incr(1)
         return sorted_possible_covers
 

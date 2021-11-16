@@ -77,31 +77,27 @@ class LabGraph(nx.Graph):
                 self.add_edge(node, random_node(nodes, not_in=[node]))
                 break
 
-    def add_tops(self):
+    def add_tops(self, k):
         nodes = list(self.nodes())
         random.shuffle(nodes)
         edges = list(self.edges())
-
-        k = k_vcover_input.value
 
         for node in nodes:
             adjacent_nodes = find_adjacent_nodes(node, edges)
             deg = len(adjacent_nodes)
             if deg < k:
-                to_add = (k+1) - deg
+                to_add = k - deg
 
                 nodes_pickfrom = [n for n in nodes if n not in adjacent_nodes and n != node]
                 random.shuffle(nodes_pickfrom)
-                for i in range(to_add):
+                for i in range(min(to_add, len(nodes_pickfrom)-1)):
                     self.add_edge(node, nodes_pickfrom[i])
                 break
 
-    def remove_tops(self):
+    def remove_tops(self, k):
         nodes = list(self.nodes())
         random.shuffle(nodes)
         edges = list(self.edges())
-
-        k = k_vcover_input.value
 
         for node in nodes:
             adjacent_nodes = find_adjacent_nodes(node, edges)
