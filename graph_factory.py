@@ -2,7 +2,7 @@ from graph import LabGraph
 import random
 
 class GraphFactory:
-    def generate_networkx_matrix(self, n: int, p: float) -> LabGraph:
+    def generate_networkx_matrix(n: int, p: float) -> LabGraph:
         G = LabGraph()
 
         for i in range(n):
