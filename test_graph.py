@@ -1,6 +1,8 @@
 from graph import *
 from graph_factory import *
 
+# Very good tests kappa
+
 def test_print_matrix():
     graph = GraphFactory.generate_networkx_matrix(3, 0.8)
 
