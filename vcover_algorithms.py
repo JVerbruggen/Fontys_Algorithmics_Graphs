@@ -131,7 +131,7 @@ class VCoverTakeTwo(VCoverAlgorithm):
             cover += [node1,node2]
             
             uncovered = uncovered[1:]
-            for e in uncovered:
+            for e in uncovered[:]:
                 (e_n1, e_n2) = e
                 if e_n1 == node1 or e_n1 == node2 or e_n2 == node1 or e_n2 == node2:
                     uncovered.remove(e)

@@ -28,8 +28,13 @@ def test_find_vcovers_enhanced():
 def test_find_vcovers_take2():
     vcovers = VCoverTakeTwo([(0,2),(0,3),(1,3),(1,2),(4,0)]).find_vcovers()
     assert len(vcovers) == 1
-    assert len(vcovers[0]) == 6
+    assert sorted(vcovers[0]) == [0,1,2,3]
 
 def test_find_vcovers_greedy():
     vcovers = VCoverGreedy([(0,2),(0,3),(1,3),(1,2),(4,0)]).find_vcovers()
-    assert vcovers[0] == [0, 1]
+    assert len(vcovers) == 1
+    assert sorted(vcovers[0]) == [0, 1]
+
+    vcovers = VCoverGreedy([(0,2),(0,3),(0,6),(0,1),(1,2),(1,3),(1,6),(1,4),(1,5),(2,3),(2,6),(3,6),(4,6),(5,6)]).find_vcovers()
+    assert len(vcovers) == 1
+    assert sorted(vcovers[0]) == [0,1,2,6]
