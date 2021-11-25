@@ -9,7 +9,7 @@ class BinaryVCoverAlgorithm(VCoverAlgorithm):
     def find_vcovers_binary(self, nodes: list[int], nodes_to_cover: list[int], edges: list[(int, int)], edges_to_cover: list[(int, int)], cover: list[bool], n: int, i: int, k: int, pbar_incr, pbar_desc): 
         pbar_incr(1)
         if n == i:
-            valid = VCoverValidatorFactory.get_validator(nodes[:], edges[:], cover, n, k).validate()
+            valid = VCoverValidatorFactory.get_validator(nodes[:], edges[:], cover, k).validate()
             if valid:
                 vc = [[nodes[j] for j in range(len(nodes)) if cover[j]]]
                 return vc
