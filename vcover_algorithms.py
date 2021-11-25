@@ -60,7 +60,7 @@ class VCoverEnhanced(BinaryVCoverAlgorithm):
 
     def find_vcovers(self):
         self.pbar_desc("Kernalizing... (Enhanced)")
-        (ns, es, nodes_in_cover, k) = kernalize_vertices(self.nodes, self.edges, k=self.k)
+        (ns, es, nodes_in_cover, self.k) = kernalize_vertices(self.nodes, self.edges, k=self.k)
         if ns == None:
             return None
         
@@ -92,8 +92,8 @@ class VCoverGreedy(VCoverAlgorithm):
                 else:
                     vertices_most_covered[node] = 1
         
-        winning_node = vertices_most_covered.keys()[0]
-        winning_node_value = vertices_most_covered.values()[0]
+        winning_node = None
+        winning_node_value = -1
 
         for k,v in vertices_most_covered.items():
             if v > winning_node_value:
@@ -108,10 +108,10 @@ class VCoverGreedy(VCoverAlgorithm):
 
         while len(uncovered) > 0:
             v = self._find_vertex_with_most_edges(uncovered)
-            cover += v
+            cover += [v]
 
             # Remove all edges on that vertex to keep uncovered up to date
-            for e in uncovered:
+            for e in uncovered[:]:
                 (e_n1, e_n2) = e
                 if e_n1 == v or e_n2 == v:
                     uncovered.remove(e)
@@ -119,7 +119,7 @@ class VCoverGreedy(VCoverAlgorithm):
         return [cover]
 
 class VCoverTakeTwo(VCoverAlgorithm):
-    def __init__(self, edges):
+    def __init__(self, edges: list[(int, int)]):
         self.edges = edges
 
     def find_vcovers(self):
