@@ -1,5 +1,5 @@
 # Fontys_Algorithmics_Graphs
-Fontys Academic Preparations Excercise - Vertex Cover Algorithm
+Fontys Academic Preparations Exercise - Vertex Cover Algorithm
 
 You can run the Jupyter notebook yourself using a tool such as VS Code
 
